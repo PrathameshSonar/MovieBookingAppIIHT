@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mongodb.DuplicateKeyException;
 import com.pms.MovieBookingApp.model.User;
 import com.pms.MovieBookingApp.model.UserLogin;
 import com.pms.MovieBookingApp.repository.UserRepo;
@@ -25,7 +26,12 @@ public class UserController {
 	
 	@PostMapping("/registerUser")
 	public ResponseEntity<User> regiserUser(@RequestBody User user){
+		try {
 		userRepo.save(user);
+		}
+		catch(DuplicateKeyException e) {
+			System.out.println(e);
+		}
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 	

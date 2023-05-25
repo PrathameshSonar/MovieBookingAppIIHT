@@ -20,7 +20,7 @@ import lombok.ToString;
 public class Ticket {
 	
 	@Id
-	private int ticketId;
+	private String ticketId;
 	private String movieName;
 	private String theaterName;
 	private int noOfTickets;

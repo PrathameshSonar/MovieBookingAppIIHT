@@ -1,6 +1,7 @@
 package com.pms.MovieBookingApp.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -18,12 +19,13 @@ import lombok.Setter;
 public class User {
 	
 	@Id
-	private int loginId;
+	private String loginId;
 	
 	private String firstName;
 	
 	private String lastName;
 	
+	@Indexed(unique=true)
 	private String email;
 			
 	private String password;
