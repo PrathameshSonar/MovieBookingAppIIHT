@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.MovieBookingApp.model.Movie;
+import com.pms.MovieBookingApp.model.Ticket;
 import com.pms.MovieBookingApp.repository.MovieRepo;
+import com.pms.MovieBookingApp.repository.TicketRepo;
 import com.pms.MovieBookingApp.service.MovieService;
 
 @RestController
@@ -27,12 +29,15 @@ public class MovieController {
 
 	@Autowired
 	private MovieRepo movieRepo;
+	
+	@Autowired
+	private TicketRepo ticketRepo;
 
 	@PostMapping("/add")
 	public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
 		movieRepo.save(movie);
 
-		return new ResponseEntity<Movie>(movie, HttpStatus.OK);
+		return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
 	}
 
 //	@PutMapping("/update/{movieName}")
@@ -44,6 +49,7 @@ public class MovieController {
 	@DeleteMapping("/{movieName}/delete/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteMovie(@PathVariable("movieName") String movieName,
 			@PathVariable("id") String theatreName) {
+		
 		return movieService.deleteMovie(movieName, theatreName);
 	}
 
@@ -66,6 +72,23 @@ public class MovieController {
 	public ResponseEntity<List<Movie>> getTheatres(@PathVariable("movieName") String movieName) {
 		List<Movie> movies = movieService.showMovieTheatre(movieName);
 		return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
+	}
+	
+	@PostMapping("/bookTickets")
+	public ResponseEntity<String> bookTicket(@RequestBody Ticket ticket){
+		if(movieService.updateTicketCount(ticket)) {
+			ticketRepo.save(ticket);
+			return new ResponseEntity<String>("Ticket Booked", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<String>("tickets not available! ", HttpStatus.OK);
+	}
+	
+	@GetMapping("/getBookings")
+	public ResponseEntity<?> getBookings(){
+		List<Ticket> tickets = ticketRepo.findAll();
+		
+		return new ResponseEntity<List<Ticket>>(tickets, HttpStatus.OK);
 	}
 
 }

@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Document(collection = "TicketDetails")
+@Document(collection = "ticket_details")
 public class Ticket {
 	
 	@Id
