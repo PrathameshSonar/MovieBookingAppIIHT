@@ -40,17 +40,11 @@ public class MovieController {
 		return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
 	}
 
-//	@PutMapping("/update/{movieName}")
-//	public Movie updateMovie(@RequestBody Movie movie, @PathVariable M movieName) {
-//		movie.setMovieId(movieId);
-//		return movieService.createOrUpdateMovie(movie);
-//	}
-
 	@DeleteMapping("/{movieName}/delete/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteMovie(@PathVariable("movieName") String movieName,
-			@PathVariable("id") String theatreName) {
+			@PathVariable("id") String theaterName) {
 		
-		return movieService.deleteMovie(movieName, theatreName);
+		return movieService.deleteMovie(movieName, theaterName);
 	}
 
 	@GetMapping("/all")
@@ -90,5 +84,11 @@ public class MovieController {
 		
 		return new ResponseEntity<List<Ticket>>(tickets, HttpStatus.OK);
 	}
+
+//	@PutMapping("/update/{movieName}")
+//	public Movie updateMovie(@RequestBody Movie movie, @PathVariable M movieName) {
+//		movie.setMovieId(movieId);
+//		return movieService.createOrUpdateMovie(movie);
+//	}
 
 }

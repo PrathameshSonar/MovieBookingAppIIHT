@@ -21,14 +21,14 @@ public class MovieService {
 	private MovieRepo movieRepo;
 
 	public List<Movie> searchMovie(String movieName) {
-		movieName = movieName.substring(0, 1).toUpperCase() + movieName.substring(1).toLowerCase();
-		
+		movieName = movieName.toLowerCase();
+		System.out.println(movieName);
 		List<Movie> movies = movieRepo.findAll();
 
 		List<Movie> searchedMovie = new ArrayList<>();
 		for (Movie movie : movies) {
 		
-			if (movie.getMovieId().getMovieName().contains(movieName)) {
+			if (movie.getMovieId().getMovieName().toLowerCase().contains(movieName)) {
 				searchedMovie.add(movie);
 			}
 		}
@@ -40,7 +40,7 @@ public class MovieService {
 		movieRepo.deleteById(new Movie.MovieId(movieName, theaterName));
 		Map<String, Boolean> response = new HashMap<>();
 
-		response.put("deleted", Boolean.TRUE);
+		response.put("Movie deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
 
 	}
