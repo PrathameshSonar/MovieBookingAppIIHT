@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,8 @@ public class MovieController {
 	
 	@Autowired
 	private TicketRepo ticketRepo;
-
+	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/add")
 	public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
 		movieRepo.save(movie);
@@ -40,6 +42,7 @@ public class MovieController {
 		return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{movieName}/delete/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteMovie(@PathVariable("movieName") String movieName,
 			@PathVariable("id") String theaterName) {
@@ -68,6 +71,7 @@ public class MovieController {
 		return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/bookTickets")
 	public ResponseEntity<String> bookTicket(@RequestBody Ticket ticket){
 		if(movieService.updateTicketCount(ticket)) {
@@ -78,6 +82,7 @@ public class MovieController {
 		return new ResponseEntity<String>("tickets not available! ", HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN', 'USER')")
 	@GetMapping("/getBookings")
 	public ResponseEntity<?> getBookings(){
 		List<Ticket> tickets = ticketRepo.findAll();

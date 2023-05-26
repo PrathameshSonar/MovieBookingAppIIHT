@@ -55,7 +55,7 @@ public class MovieService {
 
 	public boolean updateTicketCount(Ticket ticket) {
 		Movie movie= movieRepo.findById(new Movie.MovieId(ticket.getMovieName(), ticket.getTheaterName())).get();
-		if(ticket.getNoOfTickets()<movie.getAllotedSeats()) {
+		if(ticket.getNoOfTickets() < movie.getAllotedSeats()) {
 			int count=movie.getAllotedSeats()-ticket.getNoOfTickets();
 			movie.setAllotedSeats(count);
 			movieRepo.save(movie);
