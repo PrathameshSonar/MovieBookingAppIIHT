@@ -1,41 +1,43 @@
 package com.pms.MovieBookingApp.model;
 
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Document(collection="movie_details")
-@Getter
-@Setter
+@Document(value = "movie")
+@Data
 @AllArgsConstructor
-@ToString
 @NoArgsConstructor
 public class Movie {
 	
-	@Getter
-	@Setter
-	@AllArgsConstructor
-	@ToString
-	@NoArgsConstructor
-	public static class MovieId {
-		private String movieName;
-		
-		private String theaterName;
-		
-//		private String description;
-//		
-//		private String poster;
-	}
+	private ObjectId _id;
+    private String movieName;
+
+    private String theaterName;
+    private Integer noOfTicketsAvailable;
+    private String ticketsStatus;
 	
-	
-	@Id
-	private MovieId movieId;
-	
-	private int allotedSeats;
-	
+    public Movie(String movieName, String theaterName, Integer noOfTicketsAvailable, String ticketsStatus) {
+        this.movieName = movieName;
+        this.theaterName = theaterName;
+        this.noOfTicketsAvailable = noOfTicketsAvailable;
+        this.ticketsStatus = ticketsStatus;
+    }
+
+
+    public Movie(String movieName, String theaterName, Integer noOfTicketsAvailable) {
+        this.movieName = movieName;
+        this.theaterName = theaterName;
+        this.noOfTicketsAvailable = noOfTicketsAvailable;
+    }
+
+    public Movie(ObjectId _id, String movieName, String theaterName, Integer noOfTicketsAvailable) {
+        this._id = _id;
+        this.movieName = movieName;
+        this.theaterName = theaterName;
+        this.noOfTicketsAvailable = noOfTicketsAvailable;
+    }
 }

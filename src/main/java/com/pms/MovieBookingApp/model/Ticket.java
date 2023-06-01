@@ -2,28 +2,33 @@ package com.pms.MovieBookingApp.model;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
-@Document(collection = "ticket_details")
+@Data
+@Document(value = "ticket")
 public class Ticket {
 	
-	@Id
-	private String ticketId;
+	private ObjectId _id;
+	private String loginId;
 	private String movieName;
 	private String theaterName;
-	private int noOfTickets;
-	private List<String> seats;
+	private Integer noOfTickets;
+	private List<String> seatNumber;
+	
+	
+	public Ticket(String loginId, String movieName, String theaterName, Integer noOfTickets, List<String> seatNumber) {
+		this.loginId = loginId;
+		this.movieName = movieName;
+		this.theaterName = theaterName;
+		this.noOfTickets = noOfTickets;
+		this.seatNumber = seatNumber;
+	}
 
 }
